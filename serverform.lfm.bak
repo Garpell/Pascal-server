@@ -1,0 +1,10 @@
+object FPWebModule1: TFPWebModule1
+  OnCreate = DataModuleCreate
+  OldCreateOrder = False
+  Actions = <>
+  CreateSession = False
+  Height = 423
+  HorizontalOffset = 237
+  VerticalOffset = 186
+  Width = 432
+end
