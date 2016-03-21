@@ -1,11 +1,32 @@
 program httpserver;
-uses
-    SysUtils, fphttpapp, fpwebfile;
+uses fpjson, jsonparser, SysUtils, fphttpapp, fpwebfile;
 Const
      MyPort = 8080;
      MyDocumentRoot = 'C:/Users/Garpell/Projects/page';
-     MyMiMeFile = 'C:/Users/Garpell/Projects/page/mime.types';
+     //MyMiMeFile = 'C:/Users/Garpell/Projects/page/mime.types';
+
+function JSONTest : string;
+var
+   jData : TJSONData;
+   jObject : TJSONObject;
+   jArray : TJSONArray;
+   s : string;
 begin
+   jData := GetJSON('{"Fld1" : "Hello", "Fld2" : 42, "Colors" : ["Red", "Green", "Blue"]}');
+   s := jData.AsJSON;
+   s := jData.FormatJSON;
+   jObject := TJSONObject(jData);
+   s := jObject.Get('Fld1');
+   WriteLn(s);
+   jObject.Integers['Fld2'] := 123;
+   s := jData.FindPath('Colors[1]').AsString;
+   JSONTest := s;
+end;
+var
+   s : string;
+begin
+     s := JSONTest();
+     WriteLn(s);
      RegisterFileLocation('files',MyDocumentRoot);
     // MimeTypesFile:=MyMimeFile;
      Application.Initialize;
