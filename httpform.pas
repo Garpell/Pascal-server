@@ -9,7 +9,7 @@ uses
 
 type
 
-  { TForm1 }
+  { TSForm }
 
   THTTPServerThread = Class(TThread)
 Private
@@ -22,19 +22,19 @@ Procedure DoTerminate; override;
 //Property Server : TFPHTTPServer Read FServer;
 end;
 
-    TForm1 = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    MLog: TMemo;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    TSForm = class(TForm)
+    StartButton: TButton;
+    StopButton: TButton;
+    LogField: TMemo;
+    procedure StartButtonClick(Sender: TObject);
+    procedure StopButtonClick(Sender: TObject);
     procedure DoHandleRequest(Sender: TObject; var ARequest: TFPHTTPConnectionRequest; var AResponse: TFPHTTPConnectionResponse);
     procedure FormCreate(Sender: TObject);
     procedure ShowURL;
   end;
 
 var
-  Form1: TForm1;
+  SForm: TSForm;
   FServer : THTTPServerThread;
   FHandler : TFPCustomFileModule;
       FURL: string;
@@ -57,10 +57,8 @@ begin
      JSONCount := ArgToFloat(FParser.Evaluate);
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TSForm.FormCreate(Sender: TObject);
 begin
-RegisterFileLocation('files','/home/michael/public_html');
-MimeTypesFile:='/etc/mime.types';
 FHandler:=TFPCustomFileModule.CreateNew(Self);
 FHandler.BaseURL:='files/';
 end;
@@ -85,35 +83,44 @@ begin
 inherited DoTerminate;
 FServer.Active:=False;
 end;
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TSForm.StartButtonClick(Sender: TObject);
 begin
-MLog.Lines.Add('Starting server');
+LogField.Lines.Add('---------------');
+LogField.Lines.Add('Starting server');
 FServer:=THTTPServerThread.Create(8080,@DoHandleRequest);
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TSForm.StopButtonClick(Sender: TObject);
 begin
-MLog.Lines.Add('Stopping server');
+LogField.Lines.Add('---------------');
+LogField.Lines.Add('Stopping server');
 FServer.Terminate;
 end;
 
-procedure TForm1.DoHandleRequest(Sender: TObject; var ARequest: TFPHTTPConnectionRequest; var AResponse: TFPHTTPConnectionResponse);
+function CreateHtml(res: real) : string;
+begin
+     CreateHtml := '<html><head><title>Equation result</title></head> <body><h1>Result is ' + FloatToStr(res) + '</h1></body> </html>';
+end;
+
+procedure TSForm.DoHandleRequest(Sender: TObject; var ARequest: TFPHTTPConnectionRequest; var AResponse: TFPHTTPConnectionResponse);
 var
    result : real;
    s : string;
 begin
 FURL:=Arequest.URL;
 FServer.Synchronize(@ShowURL);
-//WriteLn(AResponse.Content);
 s := ARequest.Content;
-WriteLn(s);
 result := JSONCount(s);
-MLog.Lines.Add('Result: ' + FloatToStr(result));
-Sleep(30000);
+LogField.Lines.Add('Result: ' + FloatToStr(result));
+  AResponse.ContentType := 'html';
+  //AResponse.Contents.LoadFromFile(ExtractFilePath(ParamStr(0)) + 'mainpage.html');
+  //s:= '{"Answer:" ' + FloatToStr(result) + '}';
+  AResponse.Contents.Text := CreateHtml(result);
 end;
-procedure TForm1.ShowURL;
+
+procedure TSForm.ShowURL;
 begin
-MLog.Lines.Add('Handling request : '+FURL);
+LogField.Lines.Add('Handling request : '+FURL);
 end;
 {$R *.lfm}
 

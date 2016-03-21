@@ -1,38 +1,35 @@
-object Form1: TForm1
-  Left = 487
-  Height = 538
-  Top = 170
-  Width = 517
-  Caption = 'Form1'
-  ClientHeight = 538
-  ClientWidth = 517
+object SForm: TSForm
+  Left = 374
+  Height = 559
+  Top = 146
+  Width = 387
+  Caption = 'SForm'
+  ClientHeight = 559
+  ClientWidth = 387
   LCLVersion = '1.6.0.4'
-  object Button1: TButton
-    Left = 24
-    Height = 47
-    Top = 24
-    Width = 67
-    Caption = 'Button1'
-    OnClick = Button1Click
+  object StartButton: TButton
+    Left = 16
+    Height = 79
+    Top = 8
+    Width = 142
+    Caption = 'Start'
+    OnClick = StartButtonClick
     TabOrder = 0
   end
-  object Button2: TButton
-    Left = 112
-    Height = 50
-    Top = 24
-    Width = 75
-    Caption = 'Button2'
-    OnClick = Button2Click
+  object StopButton: TButton
+    Left = 229
+    Height = 79
+    Top = 8
+    Width = 142
+    Caption = 'Stop'
+    OnClick = StopButtonClick
     TabOrder = 1
   end
-  object MLog: TMemo
-    Left = 34
-    Height = 314
-    Top = 122
-    Width = 299
-    Lines.Strings = (
-      'MLog'
-    )
+  object LogField: TMemo
+    Left = 16
+    Height = 434
+    Top = 104
+    Width = 355
     TabOrder = 2
   end
 end
