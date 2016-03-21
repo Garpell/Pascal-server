@@ -1,0 +1,35 @@
+object SForm: TSForm
+  Left = 374
+  Height = 559
+  Top = 146
+  Width = 387
+  Caption = 'SForm'
+  ClientHeight = 559
+  ClientWidth = 387
+  LCLVersion = '1.6.0.4'
+  object StartButton: TButton
+    Left = 16
+    Height = 79
+    Top = 8
+    Width = 142
+    Caption = 'Start'
+    OnClick = StartButtonClick
+    TabOrder = 0
+  end
+  object StopButton: TButton
+    Left = 229
+    Height = 79
+    Top = 8
+    Width = 142
+    Caption = 'Stop'
+    OnClick = StopButtonClick
+    TabOrder = 1
+  end
+  object LogField: TMemo
+    Left = 16
+    Height = 434
+    Top = 104
+    Width = 355
+    TabOrder = 2
+  end
+end

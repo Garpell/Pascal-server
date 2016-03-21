@@ -1,0 +1,10 @@
+program httpserver;
+
+uses
+  Classes, SysUtils, FileUtil, Interfaces, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, Grids, Math, serverform, httpform;
+
+begin
+  Form1.Show;
+end.
+
